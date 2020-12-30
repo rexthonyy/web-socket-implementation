@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Web Sockets sample</title>
+
+		<style>
+			body{
+				padding-top: 50px;
+				text-align: center;
+			}
+			p{
+				font-size: 2em;
+			}
+			input, button{
+				width: 30%;
+				padding: 16px;
+				margin-top: 16px;
+			}
+			button{
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<p id="msgDisplay">This is a message</p>
+		<input id="msgInput" type="text" placeholder="Enter message">
+		<br/>
+		<button id="sendBtn">Send</button>
+
+		<script src="sockit.js"></script>
+		<script>
+			var socket = new Sockit("ws://127.0.0.1:3000");
+
+			socket.onOpen(response => {
+				console.log("[Open] Connection established");
+			});
+
+			socket.receiveMessage(data => {
+				console.log(data.msg);
+		        msgDisplay.textContent = data.msg;
+		    });
+
+			let msgDisplay = document.getElementById("msgDisplay");
+			let msgInput = document.getElementById("msgInput");
+			let sendBtn = document.getElementById("sendBtn");
+			window.onload = () => {
+				sendBtn.onclick = () => {
+					let message = msgInput.value;
+					if(message){
+						socket.sendMessage({
+							msg: message
+						});
+					}
+				};
+			}
+
+		</script>
+	</body>
+</html>
