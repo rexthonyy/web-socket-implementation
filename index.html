@@ -30,7 +30,7 @@
 
 		<script src="sockit.js"></script>
 		<script>
-			var socket = new Sockit("ws://127.0.0.1:3000");
+			var socket = new Sockit("wss://web-sockit-server-test.herokuapp.com/");
 
 			socket.onOpen(response => {
 				console.log("[Open] Connection established");
